@@ -1,0 +1,16 @@
+for tile[][]:
+f = floor
+w = wall
+d = door
+k = key
+b = boss
+e = exit
+c = chest
+0 = character
+* = enemy
+
+for hidden[][]:
+w = wall
+t = trap
+c = chest
+b = battle (ambush)

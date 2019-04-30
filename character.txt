@@ -1,0 +1,7 @@
+Fighter,50,5,
+Mage,40,3,
+Monk,45,6,
+Rogue,40,6,
+Ranger,45,4,
+Druid,45,4,
+Boss,100,8,

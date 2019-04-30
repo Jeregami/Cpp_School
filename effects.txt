@@ -1,0 +1,10 @@
+Healing,health,1,+
+Regeneration,regen,5,+
+Strength,attack,5,+
+Toughness,defense,5,+
+Skill,accuracy,5,+
+Damage,health,1,-
+Poison,regen,5,-
+Weakness,attack,5,-
+Vulnerability,defense,5,-
+Dread,accuracy,5,-

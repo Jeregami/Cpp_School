@@ -1,0 +1,17 @@
+Sword,weapon,5,null,0
+Dagger,weapon,3,accuracy,1
+Mace,weapon,5,defense,1
+Longsword,weapon,8,null,0
+Hammer,weapon,6,null,0
+Ragged Clothes,armor,3,null,0
+Leather Armor,armor,5,null,0
+Steel Armor,armor,7,null,0
+Fancy Suit,4,attack,1
+Helmet,hat,3,health,1
+Baseball Cap,hat,2,null,0
+Straw Hat,hat,2,health,1
+Top Hat,hat,3,regen,2
+Running Shoes,boots,2
+Sandles,boots,1
+Boots,boots,1
+Fuzzy Slippers,boots,1
