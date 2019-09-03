@@ -13,7 +13,7 @@ Effect::Effect() {
 }
 
 
-// Getters 
+// Getters
 
 string Effect::getName() {
     return name;
@@ -50,7 +50,7 @@ void Effect::setGoodOrBad(string effectGoodOrBad) {
     goodOrBad = effectGoodOrBad;
 }
 
-void Effect::setEffectiveness(string effectEffectiveness) {
+void Effect::setEffectiveness(int effectEffectiveness) {
     effectiveness = effectEffectiveness;
 }
 

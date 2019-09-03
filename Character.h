@@ -4,7 +4,7 @@
 using namespace std;
 
 class Character {
-private: 
+private:
     string name;
     int maxHealth;
     int health;
@@ -21,7 +21,7 @@ private:
 public:
     // Constructor
     Character();
-    
+
     // Getters
     string getName();
     int getMaxHealth();
@@ -34,7 +34,7 @@ public:
     int getNumHeldItems();
     Item getItem(int index);
     Equipment getEquipment(int index);
-    
+
     // Setters
     void setName(string characterName);
     void setMaxHealth(int characterMaxHealth);
