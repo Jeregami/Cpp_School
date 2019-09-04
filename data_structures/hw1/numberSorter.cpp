@@ -37,9 +37,9 @@ int insertIntoSortedArray(int myArray[100], int numEntries, int newValue) {
   }
 }
 
-void numberSorter(string fileName) {
-  ifstream file;
-  file.open(fileName);
+// Arguments: Input File
+int main(int argc, char *argv[]) {
+  ifstream file(argv[1]);
   if (!file.is_open()) {
     cout << "Failed to open the file" << endl;
   }
@@ -58,10 +58,4 @@ void numberSorter(string fileName) {
     cout << endl;
   }
   file.close();
-}
-
-int main() {
-  numberSorter("numbers.txt");
-//   // int array[100] = {8};
-//   // insertIntoSortedArray(array, 1, 6);
 }
