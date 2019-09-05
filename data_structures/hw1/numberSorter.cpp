@@ -7,31 +7,18 @@ using namespace std;
 // numEntries: number of elements inserted so far
 // newValue: incoming value to be sorted into the array
 int insertIntoSortedArray(int myArray[100], int numEntries, int newValue) {
-  if (numEntries < 2) {
-    if (numEntries == 0) {
-      myArray[0] = newValue;
-    }
-    else {
-      if (newValue > myArray[0]) {
-        myArray[1] = newValue;
-      }
-      else {
-        myArray[1] = myArray[0];
-        myArray[0] = newValue;
-      }
-    }
+  if (numEntries == 0) {
+    myArray[0] = newValue;
     numEntries++;
     return numEntries;
   }
-  for (int i = 0; i < numEntries; i++) {
-    if (newValue >= myArray[i] && newValue <= myArray[i+1]) {
-      for (int j = numEntries; j > i+1; j--) {
+  for (int i = numEntries; i >= 0; i--) {
+    if (newValue >= myArray[i-1] || i == 0) {
+      for (int j = numEntries; j > i; j--) {
         myArray[j] = myArray[j-1];
       }
-      myArray[i+1] = newValue;
+      myArray[i] = newValue;
       numEntries++;
-      for (int k = 0; k < numEntries; k++) {
-      }
       return numEntries;
     }
   }
