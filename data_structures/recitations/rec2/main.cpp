@@ -1,5 +1,5 @@
-#include<iostream>
-#include "swap.h"
+#include <iostream>
+#include "swap.cpp"
 
 using namespace std;
 int main(int argc, char const *argv[])
@@ -8,12 +8,16 @@ int main(int argc, char const *argv[])
   int foo[5] = {1, 2, 3, 4, 5};
 
   cout << "Addresses of elements:" << endl;
-  //TODO Print the addresses of array elements
+  for (int i = 0; i < 5; i++) {
+    cout << &i << endl;
+  }
 
   cout << endl;
 
-  cout << "Elements:" << endl;;
-  //TODO Print all the elements using pointers
+  cout << "Elements:" << endl;
+  for (int i = 0; i < 5; i++) {
+    cout << i << " ";
+  }
 
   cout << endl;
 
@@ -21,10 +25,10 @@ int main(int argc, char const *argv[])
   int f;
   int flag = 1;
   while(flag == 1){
-    cout<<"Enter indices of elements you want to swap?"<<endl;
-    cout<<"First index"<<endl;
+    cout<<"Enter indices of elements you want to swap"<<endl;
+    cout<<"First index?"<<endl;
     cin>>a;
-    cout<<"Second index"<<endl;
+    cout<<"Second index?"<<endl;
     cin>>b;
     cout<<"Enter 0 for pass-by-value, 1 for pass-by-pointer"<<endl;
     cin>>f;
@@ -56,7 +60,6 @@ int main(int argc, char const *argv[])
         }
         cout<<endl;
 
-        // TODO complete the function in swap.cpp file
         swap_by_pointers(&foo[a],&foo[b]);
 
         cout << "\nAfter swapping" << endl;
@@ -73,8 +76,7 @@ int main(int argc, char const *argv[])
   }
 
   cout << "Reversing the array";
-  // Reverse your array
-  // TODO complete the function in swap.cpp file
+  // Reverses the array
   reverse(foo,5);
 
   cout << "\nAfter reversing" << endl;
