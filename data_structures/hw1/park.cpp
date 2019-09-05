@@ -22,7 +22,7 @@ void addPark(Park parks[], string parkname, string state, int area, int length) 
 // Prints the list of parks
 void printList(const Park parks[], int length) {
   for (int i = 0; i < length; i++) {
-    cout << parks[i].parkname << " [" << parks[i].state << " ] area:" << parks[i].area << endl;
+    cout << parks[i].parkname << " [" << parks[i].state << "] area: " << parks[i].area << endl;
   }
 }
 
@@ -45,8 +45,8 @@ int main(int argc, char *argv[]) {
       arr[count] = data;
       count++;
     }
-    numParks++;
     addPark(parks, arr[0], arr[1], stoi(arr[2]), numParks);
+    numParks++;
   }
   inputFile.close();
   printList(parks, numParks);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
   int minArea = stoi(argv[3]);
   for (int i = 0; i < numParks; i++) {
     if (parks[i].area > minArea) {
-      outputFile << parks[i].parkname << ", " << parks[i].state << ", " << parks[i].area << endl;
+      outputFile << parks[i].parkname << "," << parks[i].state << "," << parks[i].area << endl;
     }
   }
 }
