@@ -16,7 +16,7 @@ void addPark(Park parks[], string parkname, string state, int area, int length) 
   newPark.parkname = parkname;
   newPark.state = state;
   newPark.area = area;
-  parks[length-1] = newPark;
+  parks[length] = newPark;
 }
 
 // Prints the list of parks

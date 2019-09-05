@@ -28,7 +28,7 @@ int insertIntoSortedArray(int myArray[100], int numEntries, int newValue) {
 int main(int argc, char *argv[]) {
   ifstream file(argv[1]);
   if (!file.is_open()) {
-    cout << "Failed to open the file" << endl;
+    cout << "Failed to open the file." << endl;
   }
   int myArray[100];
   string line;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < numValues; i++) {
       cout << myArray[i];
       if (i+1 != numValues) {
-        cout << ", ";
+        cout << ",";
       }
     }
     cout << endl;
