@@ -1,5 +1,5 @@
 for tile[][]:
-f = floor
+' ' = floor
 w = wall
 d = door
 k = key
