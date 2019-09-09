@@ -1,0 +1,5 @@
+In this assignment, we will write a program to analyze the word frequency in a document.
+Because the number of words in the document may not be known a prior, we will implement a
+dynamically doubling array to store the necessary information.
+Please read all the directions before writing code, as this write-up contains specific
+requirements for how the code should be written.
