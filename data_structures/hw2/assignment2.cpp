@@ -19,16 +19,16 @@ void printNext10(wordItem uniqueWords[], int N, int totalNumWords);
 
 
 int main(int argc, char const *argv[]) {
-  if (argc != 3 ) {
+  if (argc != 4) {
     cout << "Usage: Assignment2Solution " << argv[0] << " " << argv[1] << " " << argv[2] << endl;
     return 0;
   }
   string ignoreWords[50];
-  getStopWords(argv[2], ignoreWords);
+  getStopWords(argv[3], ignoreWords);
   int numTimesWordArrayDoubled = 0;
   wordItem uniqueWords[100];
   int numUniqueWords = 0;
-  ifstream file(argv[1]);
+  ifstream file(argv[2]);
   string lineData;
   while (getline(file, lineData)) {
     istringstream ss(lineData);
@@ -42,25 +42,29 @@ int main(int argc, char const *argv[]) {
         for (int i = 0; i < numUniqueWords+1; i++) {
           if (i == numUniqueWords) {
             uniqueWords[i].word = word;
-            uniqueWords[i].count++;
+            uniqueWords[i].count = 1;
+            numUniqueWords++;
+            break;
           }
-          if (uniqueWords[i].word == word) {
+          else if (uniqueWords[i].word == word) {
             uniqueWords[i].count++;
+            break;
           }
         }
       }
     }
   }
-  for (int i = 0; i < 25; i++) {
-    cout << uniqueWords[i].word << " ";
+  file.close();
+  for (int i = 0; i < numUniqueWords; i++) {
+    cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
   }
 }
 
 
 void doubleArray(wordItem uniqueWords[], int length) {
-  wordItem* newArray = new wordItem[length*2];
-  for (int i = 0; i < length; i++) {
-    newArray[i] = uniqueWords[i];
+  wordItem *newArray = new wordItem[length*2];
+  for (int i = 0; i < length*2; i++) {
+    newArray = &uniqueWords[i];
   }
   delete[] uniqueWords;
   uniqueWords = newArray;

@@ -1,5 +1,17 @@
-In this assignment, we will write a program to analyze the word frequency in a document.
-Because the number of words in the document may not be known a prior, we will implement a
-dynamically doubling array to store the necessary information.
-Please read all the directions before writing code, as this write-up contains specific
-requirements for how the code should be written.
+in this assignment we will write a program to analyze the word frequency in a document
+because the number of words in the document may not be known a prior we will implement a
+dynamically doubling array to store the necessary information
+please read all the directions before writing code as this write up contains specific
+requirements for how the code should be written
+there are two files on moodle one contains text to be read and analyzed and is named
+tomSawyertxt as the name implies this file contains the full text from tom sawyer for your
+convenience all the punctuation has been removed all the words have been converted to
+lowercase and the entire document can be read as if it were written on a single line the other
+file contains the fivety most common words in the english language which your program will
+ignore during analysis it is called ignoreWordstxt
+your program must take three command line arguments in the following order a
+number n the name of the text to be read and the name of the text file with the words that
+should be ignored it will read the text ignoring the words in the second file and store all
+unique words in a dynamically doubling array it should then calculate and print the following
+information yes no said say nothing something fun ugh why monkey queen four two three one seven
+legs skinny nuts funny code hats hat hop hello world vocabulary weather wet
