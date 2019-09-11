@@ -26,8 +26,9 @@ int main(int argc, char const *argv[]) {
   string ignoreWords[50];
   getStopWords(argv[3], ignoreWords);
   int numTimesWordArrayDoubled = 0;
-  wordItem uniqueWords[100];
+  wordItem *uniqueWords = new wordItem[100];
   int numUniqueWords = 0;
+  int length = 100;
   ifstream file(argv[2]);
   string lineData;
   while (getline(file, lineData)) {
@@ -36,8 +37,19 @@ int main(int argc, char const *argv[]) {
     while (getline(ss, word, ' ')) {
       if (isStopWord(word, ignoreWords) == 0) {
         // If the uniqueWords array is full, then double the size of the array
-        if (numUniqueWords == 100 * (pow(2, numTimesWordArrayDoubled))) {
-
+        if (numUniqueWords == length) {
+          length = length * 2;
+          wordItem *newArray = new wordItem[length];
+          for (int i = 0; i < length/2; i++) {
+            newArray[i].word = uniqueWords[i].word;
+            newArray[i].count = uniqueWords[i].count;
+          }
+          uniqueWords = new wordItem[length];
+          for (int i = 0; i < length/2; i++) {
+            uniqueWords[i].word = newArray[i].word;
+            uniqueWords[i].count = newArray[i].count;
+          }
+          delete [] newArray;
         }
         for (int i = 0; i < numUniqueWords+1; i++) {
           if (i == numUniqueWords) {
@@ -55,19 +67,12 @@ int main(int argc, char const *argv[]) {
     }
   }
   file.close();
-  for (int i = 0; i < numUniqueWords; i++) {
-    cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
-  }
-}
-
-
-void doubleArray(wordItem uniqueWords[], int length) {
-  wordItem *newArray = new wordItem[length*2];
-  for (int i = 0; i < length*2; i++) {
-    newArray = &uniqueWords[i];
-  }
-  delete[] uniqueWords;
-  uniqueWords = newArray;
+  int totalNumWords = getTotalNumberNonStopWords(uniqueWords, length);
+  arraySort(uniqueWords, length);
+  // for (int i = 0; i < length; i++) {
+  //   cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
+  // }
+  //printNext10(uniqueWords, 25, totalNumWords);
 }
 
 
@@ -100,15 +105,57 @@ bool isStopWord(string word, string ignoreWords[]) {
 
 // Returns the total number of non stop words in the document
 int getTotalNumberNonStopWords(wordItem uniqueWords[], int length) {
-
+  int count = 0;
+  for (int i = 0; i < length; i++) {
+    count = count + uniqueWords[i].count;
+  }
+  return count;
 }
 
 
 void arraySort(wordItem uniqueWords[], int length) {
-
+  wordItem *newArray = new wordItem[length];
+  newArray = uniqueWords;
+  uniqueWords = new wordItem[length];
+  for (int i = 0; i < length; i++) {
+    uniqueWords[i].count = 0;
+  }
+  uniqueWords[0].word = newArray[0].word;
+  uniqueWords[0].count = newArray[0].count;
+  int numEntries = 1;
+  for (int i = 0; i < length; i++) {
+    for (int j = 0; j < numEntries+1; j++) {
+      if (newArray[i].count > uniqueWords[j].count) {
+        for (int k = numEntries; k > j; k--) {
+          uniqueWords[k].word = uniqueWords[k-1].word;
+          uniqueWords[k].count = uniqueWords[k-1].count;
+        }
+        uniqueWords[j].word = newArray[i].word;
+        uniqueWords[j].count = newArray[i].count;
+        numEntries++;
+        break;
+      }
+      else if (uniqueWords[j].count == 0) {
+        uniqueWords[j].word = newArray[i].word;
+        uniqueWords[j].count = newArray[i].count;
+        numEntries++;
+        break;
+      }
+    }
+  }
+  for (int i = 0; i < length; i++) {
+    cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
+  }
+  delete [] newArray;
 }
 
 
 void printNext10(wordItem uniqueWords[], int N, int totalNumWords) {
-
+  float probability;
+  cout << "Probablity of next 10 words from rank " << N << endl;
+  cout << "---------------------------------------" << endl;
+  for (int i = N; i < N+10; i++) {
+    probability = (float)uniqueWords[i].count / totalNumWords;
+    cout << probability << " - " << uniqueWords[i].word << endl;
+  }
 }
