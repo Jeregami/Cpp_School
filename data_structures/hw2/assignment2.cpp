@@ -67,7 +67,16 @@ int main(int argc, char const *argv[]) {
     }
   }
   file.close();
-  arraySort(testArray, numberOfUniqueWords);
+  int totalNumWords = getTotalNumberNonStopWords(uniqueWords, length);
+  arraySort(uniqueWords, length);
+  cout << "Array doubled: " << numTimesWordArrayDoubled << endl;
+  cout << "#" << endl;
+  cout << "Unique non-common words: " << numUniqueWords << endl;
+  cout << "#" << endl;
+  cout << "Total non-common words: " << totalNumWords << endl;
+  cout << "Probability of next 10 words from rank " << argv[1];
+  cout << "---------------------------------------" << endl;
+  printNext10(uniqueWords, argv[1], totalNumWords);
 }
 
 
