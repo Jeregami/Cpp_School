@@ -67,12 +67,6 @@ int main(int argc, char const *argv[]) {
     }
   }
   file.close();
-  int totalNumWords = getTotalNumberNonStopWords(uniqueWords, length);
-  arraySort(uniqueWords, length);
-  for (int i = 0; i < length; i++) {
-    cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
-  }
-  printNext10(uniqueWords, 25, totalNumWords);
 }
 
 
@@ -128,7 +122,7 @@ void arraySort(wordItem uniqueWords[], int length) {
   for (int i = 0; i < length; i++) {
     for (int j = 0; j < numEntries+1; j++) {
       if (newArray[i].count > uniqueWords[j].count) {
-        for (int k = numEntries; k > j; k--) {
+        for (int k = numEntries-1; k > j; k--) {
           uniqueWords[k].word = uniqueWords[k-1].word;
           uniqueWords[k].count = uniqueWords[k-1].count;
         }
