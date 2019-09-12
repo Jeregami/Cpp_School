@@ -67,6 +67,7 @@ int main(int argc, char const *argv[]) {
     }
   }
   file.close();
+  arraySort(testArray, numberOfUniqueWords);
 }
 
 
