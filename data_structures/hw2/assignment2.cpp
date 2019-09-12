@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -148,6 +148,6 @@ void printNext10(wordItem uniqueWords[], int N, int totalNumWords) {
   cout << "---------------------------------------" << endl;
   for (int i = N; i < N+10; i++) {
     probability = (float)uniqueWords[i].count / totalNumWords;
-    cout << probability << " - " << uniqueWords[i].word << endl;
+    cout <<  setprecision(4) << probability << " - " << uniqueWords[i].word << endl;
   }
 }
