@@ -39,6 +39,7 @@ int main(int argc, char const *argv[]) {
         // If the uniqueWords array is full, then double the size of the array
         if (numUniqueWords == length) {
           length = length * 2;
+          numTimesWordArrayDoubled++;
           wordItem *newArray = new wordItem[length];
           for (int i = 0; i < length/2; i++) {
             newArray[i].word = uniqueWords[i].word;
@@ -74,9 +75,10 @@ int main(int argc, char const *argv[]) {
   cout << "Unique non-common words: " << numUniqueWords << endl;
   cout << "#" << endl;
   cout << "Total non-common words: " << totalNumWords << endl;
-  cout << "Probability of next 10 words from rank " << argv[1];
+  cout << "#" << endl;
+  cout << "Probability of next 10 words from rank " << argv[1] << endl;
   cout << "---------------------------------------" << endl;
-  printNext10(uniqueWords, argv[1], totalNumWords);
+  printNext10(uniqueWords, stoi(argv[1]), totalNumWords);
 }
 
 
@@ -129,7 +131,7 @@ void arraySort(wordItem uniqueWords[], int length) {
   uniqueWords[0].word = newArray[0].word;
   uniqueWords[0].count = newArray[0].count;
   int numEntries = 1;
-  for (int i = 0; i < length; i++) {
+  for (int i = 1; i < length; i++) {
     for (int j = 0; j < numEntries+1; j++) {
       if (newArray[i].count > uniqueWords[j].count) {
         for (int k = numEntries-1; k > j; k--) {
