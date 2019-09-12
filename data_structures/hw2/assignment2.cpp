@@ -145,10 +145,9 @@ void arraySort(wordItem uniqueWords[], int length) {
 
 void printNext10(wordItem uniqueWords[], int N, int totalNumWords) {
   float probability;
-  cout << "Probablity of next 10 words from rank " << N << endl;
-  cout << "---------------------------------------" << endl;
   for (int i = N; i < N+10; i++) {
     probability = (float)uniqueWords[i].count / totalNumWords;
-    cout <<  setprecision(4) << probability << " - " << uniqueWords[i].word << endl;
+    cout <<  setprecision(4) << fixed;
+    cout << probability << " - " << uniqueWords[i].word << endl;
   }
 }
