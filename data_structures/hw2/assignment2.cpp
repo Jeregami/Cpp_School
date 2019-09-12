@@ -67,12 +67,15 @@ int main(int argc, char const *argv[]) {
     }
   }
   file.close();
-  int totalNumWords = getTotalNumberNonStopWords(uniqueWords, length);
-  arraySort(uniqueWords, length);
-  for (int i = 0; i < length; i++) {
-    cout << uniqueWords[i].word << " " << uniqueWords[i].count << endl;
+  string stringArray[26]={"alpha","bravo","charlie","delta","echo","foxtrot","golf","hotel","india","juliet","kilo","lima","mike","november","oscar","papa","quebec","romeo","sierra","tango","uniform","victor","whiskey","xray","yankee","zulu"};
+  int countArray[26]={1,2,26,3,25,4,24,5,23,6,22,7,21,8,20,9,19,10,18,11,17,12,16,13,15,14};
+  int numberOfUniqueWords=26;
+  wordItem testArray[26];
+  for (int i = 0; i < 26; i++) {
+    testArray[i].word = stringArray[i];
+    testArray[i].count = countArray[i];
   }
-  printNext10(uniqueWords, 25, totalNumWords);
+  arraySort(testArray, numberOfUniqueWords);
 }
 
 
@@ -128,7 +131,7 @@ void arraySort(wordItem uniqueWords[], int length) {
   for (int i = 0; i < length; i++) {
     for (int j = 0; j < numEntries+1; j++) {
       if (newArray[i].count > uniqueWords[j].count) {
-        for (int k = numEntries; k > j; k--) {
+        for (int k = numEntries-1; k > j; k--) {
           uniqueWords[k].word = uniqueWords[k-1].word;
           uniqueWords[k].count = uniqueWords[k-1].count;
         }
