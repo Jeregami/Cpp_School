@@ -32,10 +32,15 @@ void CountryNetwork::insertCountry(Country* previous, string countryName) {
   country->name = countryName;
   if (previous == NULL) {
     cout << "adding: " << countryName << " (HEAD)" << endl;
+    if (head != NULL) {
+      country->next = head;
+    }
+    head->next = country;
     head = country;
   }
   else {
     cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
+    country->next = previous->next;
     previous->next = country;
   }
 }
@@ -60,6 +65,9 @@ void CountryNetwork::loadDefaultSetup() {
  * @return pointer to node of countryName, or NULL if not found
  */
 Country* CountryNetwork::searchNetwork(string countryName) {
+  if (head == NULL) {
+    return NULL;
+  }
   int i = 0;
   Country *ptr = new Country;
   ptr = head;
@@ -99,7 +107,7 @@ void CountryNetwork::transmitMsg(string receiver, string message) {
     while (i < 100) {
       ptr->message = message;
       ptr->numberMessages++;
-      cout << ptr->name << "[# messages received: " << ptr->numberMessages << "] received: " << ptr->message << endl;
+      cout << ptr->name << " [# messages received: " << ptr->numberMessages << "] received: " << ptr->message << endl;
       if (ptr->name != receiver) {
         ptr = ptr->next;
       }
@@ -117,21 +125,22 @@ void CountryNetwork::transmitMsg(string receiver, string message) {
  */
 void CountryNetwork::printPath() {
   Country *ptr = new Country;
-  ptr = head;
   int i = 0;
   cout << "== CURRENT PATH ==" << endl;
-  if (ptr == NULL) {
+  if (head == NULL) {
     cout << "nothing in path" << endl;
   }
   else {
+    ptr = head;
     while (i < 100) {
-      if (ptr != NULL) {
+      if (ptr->next != head) {
         cout << ptr->name << " -> ";
-        ptr = ptr->next;
       }
       else {
         cout << "NULL" << endl;
+        break;
       }
+      ptr = ptr->next;
       i++;
     }
   }
