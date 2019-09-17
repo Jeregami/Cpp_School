@@ -63,7 +63,7 @@ Country* CountryNetwork::searchNetwork(string countryName) {
   int i = 0;
   Country *ptr = new Country;
   ptr = head;
-  while (i < 20) {
+  while (i < 100) {
     if (ptr->name == countryName) {
       return ptr;
     }
@@ -86,7 +86,29 @@ Country* CountryNetwork::searchNetwork(string countryName) {
  * @return none
  */
 void CountryNetwork::transmitMsg(string receiver, string message) {
-  
+  if (head == NULL) {
+    cout << "Empty list" << endl;
+  }
+  else if (searchNetwork(receiver) == NULL) {
+    cout << "Country not found" << endl;
+  }
+  else {
+    int i = 0;
+    Country *ptr = new Country;
+    ptr = head;
+    while (i < 100) {
+      ptr->message = message;
+      ptr->numberMessages++;
+      cout << ptr->name << "[# messages received: " << ptr->numberMessages << "] received: " << ptr->message << endl;
+      if (ptr->name != receiver) {
+        ptr = ptr->next;
+      }
+      else if (ptr->name == receiver) {
+        i = 100;
+      }
+      i++;
+    }
+  }
 }
 
 /*
@@ -94,13 +116,24 @@ void CountryNetwork::transmitMsg(string receiver, string message) {
  * @param ptr head of list
  */
 void CountryNetwork::printPath() {
-
-}
-
-
-int main() {
-  CountryNetwork network;
-  network.loadDefaultSetup();
-  network.searchNetwork("China");
-
+  Country *ptr = new Country;
+  ptr = head;
+  int i = 0;
+  cout << "== CURRENT PATH ==" << endl;
+  if (ptr == NULL) {
+    cout << "nothing in path" << endl;
+  }
+  else {
+    while (i < 100) {
+      if (ptr != NULL) {
+        cout << ptr->name << " -> ";
+        ptr = ptr->next;
+      }
+      else {
+        cout << "NULL" << endl;
+      }
+      i++;
+    }
+  }
+  cout << "===" << endl;
 }
