@@ -29,6 +29,7 @@ CountryNetwork::CountryNetwork() {
  */
 void CountryNetwork::insertCountry(Country* previous, string countryName) {
   Country *country = new Country;
+  //country->next = NULL;
   country->name = countryName;
   if (previous == NULL) {
     cout << "adding: " << countryName << " (HEAD)" << endl;
@@ -132,7 +133,7 @@ void CountryNetwork::printPath() {
   else {
     ptr = head;
     while (i < 100) {
-      if (ptr->next != head) {
+      if (ptr->next != NULL) {
         cout << ptr->name << " -> ";
       }
       else {
