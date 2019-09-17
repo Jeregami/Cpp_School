@@ -35,7 +35,6 @@ void CountryNetwork::insertCountry(Country* previous, string countryName) {
     if (head != NULL) {
       country->next = head;
     }
-    head->next = country;
     head = country;
   }
   else {
