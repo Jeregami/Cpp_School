@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
         case 3:
           cout << "Enter name of the country to receive the message:" << endl;
           getline(cin, country);
-          cout << "Enter the message to send" << endl;
+          cout << "Enter the message to send:" << endl;
           getline(cin, message);
           cout << endl;
           network.transmitMsg(country, message);
@@ -63,6 +63,7 @@ int main(int argc, char* argv[]) {
           }
           network.insertCountry(previous, newCountry);
           network.printPath();
+          break;
         case 5:
           cout << "Quitting..." << endl;
           break;

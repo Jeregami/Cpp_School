@@ -29,8 +29,8 @@ CountryNetwork::CountryNetwork() {
  */
 void CountryNetwork::insertCountry(Country* previous, string countryName) {
   Country *country = new Country;
-  //country->next = NULL;
   country->name = countryName;
+  country->next = NULL;
   if (previous == NULL) {
     cout << "adding: " << countryName << " (HEAD)" << endl;
     if (head != NULL) {
@@ -40,8 +40,15 @@ void CountryNetwork::insertCountry(Country* previous, string countryName) {
   }
   else {
     cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
-    country->next = previous->next;
-    previous->next = country;
+    // If previous is the tail
+    if (previous->next == NULL) {
+      previous->next = country;
+    }
+    // If country is inserted somewher in middle
+    else {
+      country->next = previous->next;
+      previous->next = country;
+    }
   }
 }
 
@@ -75,7 +82,7 @@ Country* CountryNetwork::searchNetwork(string countryName) {
     if (ptr->name == countryName) {
       return ptr;
     }
-    else if (ptr->name == "") {
+    else if (ptr->next == NULL) {
       return NULL;
     }
     else {
@@ -127,16 +134,14 @@ void CountryNetwork::printPath() {
   Country *ptr = new Country;
   int i = 0;
   cout << "== CURRENT PATH ==" << endl;
-  if (head == NULL) {
+  if (head->next == NULL) {
     cout << "nothing in path" << endl;
   }
   else {
     ptr = head;
     while (i < 100) {
-      if (ptr->next != NULL) {
-        cout << ptr->name << " -> ";
-      }
-      else {
+      cout << ptr->name << " -> ";
+      if (ptr->next == NULL) {
         cout << "NULL" << endl;
         break;
       }
