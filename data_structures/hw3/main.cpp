@@ -58,10 +58,10 @@ int main(int argc, char* argv[]) {
             }
             else {
               previous = network.searchNetwork(previousName);
+              network.insertCountry(previous, newCountry);
               break;
             }
           }
-          network.insertCountry(previous, newCountry);
           network.printPath();
           break;
         case 5:

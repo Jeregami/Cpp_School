@@ -28,28 +28,28 @@ CountryNetwork::CountryNetwork() {
  * @return none
  */
 void CountryNetwork::insertCountry(Country* previous, string countryName) {
-  // If list is empty
-  if (head == NULL) {
+  Country *newCountry = new Country;
+  newCountry->name = countryName;
+  // Insert at beginning
+  if (previous == NULL) {
     cout << "adding: " << countryName << " (HEAD)" << endl;
-    head = new Country;
-    head->name = countryName;
-    head->next = NULL;
-  }
-  else {
+    // If list is empty
+    if (head == NULL) {
+      head = new Country;
+      head->name = countryName;
+      head->next = NULL;
+    }
     // If list is not empty
-    Country *newCountry = new Country;
-    newCountry->name = countryName;
-    cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
-    // Insert at beginning
-    if (previous == NULL) {
+    else {
       previous->next = newCountry;
       head = newCountry;
     }
+  }
+  else {
+    cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
     // Insert anywhere else
-    else {
-      newCountry->next = previous->next;
-      previous->next = newCountry;
-    }
+    newCountry->next = previous->next;
+    previous->next = newCountry;
   }
 }
 
@@ -135,7 +135,7 @@ void CountryNetwork::printPath() {
   Country *ptr = new Country;
   int i = 0;
   cout << "== CURRENT PATH ==" << endl;
-  if (head->next == NULL) {
+  if (head == NULL) {
     cout << "nothing in path" << endl;
   }
   else {
