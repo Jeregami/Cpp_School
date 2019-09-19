@@ -16,7 +16,7 @@ using namespace std;
  * @return none
  */
 CountryNetwork::CountryNetwork() {
-  Country *head;
+  head = NULL;
 }
 
 
@@ -28,28 +28,41 @@ CountryNetwork::CountryNetwork() {
  * @return none
  */
 void CountryNetwork::insertCountry(Country* previous, string countryName) {
-  Country *country = new Country;
-  country->name = countryName;
-  country->next = NULL;
-  if (previous == NULL) {
+  // If list is empty
+  if (head == NULL) {
     cout << "adding: " << countryName << " (HEAD)" << endl;
-    if (head != NULL) {
-      country->next = head;
-    }
-    head = country;
+    head = new Country;
+    head->name = countryName;
+    head->next = NULL;
   }
   else {
+    // If list is not empty
+    Country *newCountry = new Country;
+    newCountry->name = countryName;
     cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
-    // If previous is the tail
-    if (previous->next == NULL) {
-      previous->next = country;
+    // Insert at beginning
+    if (previous == NULL) {
+      previous->next = newCountry;
+      head = newCountry;
     }
-    // If country is inserted somewher in middle
+    // Insert anywhere else
     else {
-      country->next = previous->next;
-      previous->next = country;
+      newCountry->next = previous->next;
+      previous->next = newCountry;
     }
   }
+  // Country *newCountry = new Country;
+  // newCountry->name = countryName;
+  // if (previous == NULL) {
+  //   cout << "adding: " << countryName << " (HEAD)" << endl;
+  //   newCountry->next = head;
+  //   head = newCountry;
+  // }
+  // else {
+  //   cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
+  //   newCountry->next = previous->next;
+  //   previous->next = newCountry;
+  // }
 }
 
 /*
