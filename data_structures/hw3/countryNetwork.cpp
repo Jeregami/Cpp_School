@@ -51,18 +51,6 @@ void CountryNetwork::insertCountry(Country* previous, string countryName) {
       previous->next = newCountry;
     }
   }
-  // Country *newCountry = new Country;
-  // newCountry->name = countryName;
-  // if (previous == NULL) {
-  //   cout << "adding: " << countryName << " (HEAD)" << endl;
-  //   newCountry->next = head;
-  //   head = newCountry;
-  // }
-  // else {
-  //   cout << "adding: " << countryName << " (prev: " << previous->name << ")" << endl;
-  //   newCountry->next = previous->next;
-  //   previous->next = newCountry;
-  // }
 }
 
 /*
