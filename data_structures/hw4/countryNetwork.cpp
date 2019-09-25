@@ -6,7 +6,7 @@
 /*     represet communication paths between nations             */
 /****************************************************************/
 
-#include "CountryNetwork.hpp"
+#include "countryNetwork.hpp"
 
 using namespace std;
 
@@ -25,6 +25,12 @@ CountryNetwork::CountryNetwork() {
  * @return true if empty; else false
  */
 bool CountryNetwork::isEmpty() {
+  if (head == NULL) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
@@ -68,6 +74,32 @@ bool CountryNetwork::isEmpty() {
  * @return none
  */
 void CountryNetwork::deleteCountry(string countryName) {
+  if (searchNetwork(countryName) == NULL) {
+    cout << "Country does not exist." << endl;
+  }
+  else {
+    // If country being deleted is the head
+    if (head->name == countryName) {
+      head = head->next;
+    }
+    Country *currentCountry = new Country;
+    Country *previousCountry = new Country;
+    currentCountry = head;
+    previousCountry = NULL;
+    while (0 < 1) {
+      if (currentCountry->next == NULL) {
+        break;
+      }
+      if (currentCountry->name == countryName) {
+        previousCountry->next = currentCountry->next;
+        break;
+      }
+      else {
+        previousCountry = currentCountry;
+        currentCountry = currentCountry->next;
+      }
+    }
+  }
 }
 
 /*
@@ -119,6 +151,16 @@ Country* CountryNetwork::searchNetwork(string countryName) {
  * @return none
  */
 void CountryNetwork::deleteEntireNetwork() {
+  if (head != NULL) {
+    while (0 < 1) {
+      cout << "deleting: " << head->name << endl;
+      head = head->next;
+      if (head == NULL) {
+        cout << "Deleted network" << endl;
+        break;
+      }
+    }
+  }
 }
 
 /*
@@ -128,6 +170,50 @@ void CountryNetwork::deleteEntireNetwork() {
  * @return none
  */
  void CountryNetwork :: rotateNetwork(int n) {
+   if (head == NULL) {
+     cout << "Linked List is Empty" << endl;
+   }
+   int count = 1;
+   Country *current = new Country;
+   current = head;
+   while (0 < 1) {
+     if (current->next == NULL) {
+       break;
+     }
+     count++;
+     current = current->next;
+   }
+   if (n < 1 || n > count) {
+     cout << "Rotate not possible" << endl;
+   }
+   else {
+     int g = 0;
+     Country *previous = new Country;
+     Country *next = new Country;
+     for (int k = 0; k < n; k++) {
+       for (int i = 0; i < count-1; i++) {
+         previous = NULL;
+         current = head;
+         next = current->next;
+         for (int j = 0; j < i; j++) {
+           previous = current;
+           current = next;
+           next = next->next;
+         }
+         if (previous == NULL) {
+           current->next = next->next;
+           head = next;
+           next->next = current;
+         }
+         else {
+           previous->next = next;
+           current->next = next->next;
+           next->next = current;
+         }
+       }
+     }
+   }
+   cout << "Rotate complete" << endl;
 }
 
 /*
@@ -135,6 +221,70 @@ void CountryNetwork::deleteEntireNetwork() {
  * @param ptr head of list
  */
 void CountryNetwork::reverseEntireNetwork() {
+  Country *headCountry = new Country;
+  Country *previousHead = new Country;
+  Country *tailCountry = new Country;
+  Country *previousTail = new Country;
+  tailCountry = head;
+  previousTail = NULL;
+  int count = 0;
+  while (0 < 1) {
+    count++;
+    if (tailCountry->next == NULL) {
+      break;
+    }
+    else {
+      previousTail = tailCountry;
+      tailCountry = tailCountry->next;
+    }
+  }
+  headCountry = head;
+  for (int i = 0; i < count/2; i++) {
+    headCountry = head;
+    tailCountry = head;
+    previousHead = NULL;
+    previousTail = NULL;
+    for (int j = 0; j < i; j++) {
+      previousHead = headCountry;
+      headCountry = headCountry->next;
+    }
+    for (int j = i; j < count-1; j++) {
+      previousTail = tailCountry;
+      tailCountry = tailCountry->next;
+    }
+    if (previousHead == NULL) {
+      tailCountry->next = headCountry->next;
+      head = tailCountry;
+      previousTail->next = headCountry;
+      headCountry->next = NULL;
+    }
+    else if (headCountry->next == tailCountry) {
+      previousHead->next = tailCountry;
+      headCountry->next = tailCountry->next;
+      tailCountry->next = headCountry;
+    }
+    else {
+      Country *temp = new Country;
+      temp = tailCountry->next;
+      previousHead->next = tailCountry;
+      tailCountry->next = headCountry->next;
+      previousTail->next = headCountry;
+      headCountry->next = temp;
+    }
+    // while (0 < 1) {
+    //   if (tailCountry->next == NULL) {
+    //     tailCountry->next = headCountry->next;
+    //     head = tailCountry;
+    //     previousTail->next = headCountry;
+    //     headCountry->next = NULL;
+    //     break;
+    //   }
+    //   else {
+    //     previousTail = tailCountry;
+    //     tailCountry = tailCountry->next;
+    //   }
+    // }
+  }
 }
 
 /*
@@ -161,4 +311,14 @@ void CountryNetwork::printPath() {
     }
   }
   cout << "===" << endl;
+}
+
+
+int main () {
+  CountryNetwork network;
+  network.loadDefaultSetup();
+  network.printPath();
+  network.reverseEntireNetwork();
+  //network.rotateNetwork(2);
+  network.printPath();
 }
