@@ -271,19 +271,6 @@ void CountryNetwork::reverseEntireNetwork() {
       previousTail->next = headCountry;
       headCountry->next = temp;
     }
-    // while (0 < 1) {
-    //   if (tailCountry->next == NULL) {
-    //     tailCountry->next = headCountry->next;
-    //     head = tailCountry;
-    //     previousTail->next = headCountry;
-    //     headCountry->next = NULL;
-    //     break;
-    //   }
-    //   else {
-    //     previousTail = tailCountry;
-    //     tailCountry = tailCountry->next;
-    //   }
-    // }
   }
 }
 
@@ -311,14 +298,4 @@ void CountryNetwork::printPath() {
     }
   }
   cout << "===" << endl;
-}
-
-
-int main () {
-  CountryNetwork network;
-  network.loadDefaultSetup();
-  network.printPath();
-  network.reverseEntireNetwork();
-  //network.rotateNetwork(2);
-  network.printPath();
 }
