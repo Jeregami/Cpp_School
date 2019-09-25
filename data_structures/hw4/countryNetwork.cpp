@@ -88,6 +88,9 @@ void CountryNetwork::deleteCountry(string countryName) {
     previousCountry = NULL;
     while (0 < 1) {
       if (currentCountry->next == NULL) {
+        if (currentCountry->name == countryName) {
+          previousCountry->next = NULL;
+        }
         break;
       }
       if (currentCountry->name == countryName) {
@@ -173,47 +176,49 @@ void CountryNetwork::deleteEntireNetwork() {
    if (head == NULL) {
      cout << "Linked List is Empty" << endl;
    }
-   int count = 1;
-   Country *current = new Country;
-   current = head;
-   while (0 < 1) {
-     if (current->next == NULL) {
-       break;
-     }
-     count++;
-     current = current->next;
-   }
-   if (n < 1 || n > count) {
-     cout << "Rotate not possible" << endl;
-   }
    else {
-     int g = 0;
-     Country *previous = new Country;
-     Country *next = new Country;
-     for (int k = 0; k < n; k++) {
-       for (int i = 0; i < count-1; i++) {
-         previous = NULL;
-         current = head;
-         next = current->next;
-         for (int j = 0; j < i; j++) {
-           previous = current;
-           current = next;
-           next = next->next;
-         }
-         if (previous == NULL) {
-           current->next = next->next;
-           head = next;
-           next->next = current;
-         }
-         else {
-           previous->next = next;
-           current->next = next->next;
-           next->next = current;
+     int count = 1;
+     Country *current = new Country;
+     current = head;
+     while (0 < 1) {
+       if (current->next == NULL) {
+         break;
+       }
+       count++;
+       current = current->next;
+     }
+     if (n < 1 || n > count) {
+       cout << "Rotate not possible" << endl;
+     }
+     else {
+       int g = 0;
+       Country *previous = new Country;
+       Country *next = new Country;
+       for (int k = 0; k < n; k++) {
+         for (int i = 0; i < count-1; i++) {
+           previous = NULL;
+           current = head;
+           next = current->next;
+           for (int j = 0; j < i; j++) {
+             previous = current;
+             current = next;
+             next = next->next;
+           }
+           if (previous == NULL) {
+             current->next = next->next;
+             head = next;
+             next->next = current;
+           }
+           else {
+             previous->next = next;
+             current->next = next->next;
+             next->next = current;
+           }
          }
        }
+       cout << "Rotate Complete" << endl;
      }
    }
-   cout << "Rotate complete" << endl;
 }
 
 /*
@@ -221,55 +226,57 @@ void CountryNetwork::deleteEntireNetwork() {
  * @param ptr head of list
  */
 void CountryNetwork::reverseEntireNetwork() {
-  Country *headCountry = new Country;
-  Country *previousHead = new Country;
-  Country *tailCountry = new Country;
-  Country *previousTail = new Country;
-  tailCountry = head;
-  previousTail = NULL;
-  int count = 0;
-  while (0 < 1) {
-    count++;
-    if (tailCountry->next == NULL) {
-      break;
-    }
-    else {
-      previousTail = tailCountry;
-      tailCountry = tailCountry->next;
-    }
-  }
-  headCountry = head;
-  for (int i = 0; i < count/2; i++) {
-    headCountry = head;
+  if (isEmpty() == false) {
+    Country *headCountry = new Country;
+    Country *previousHead = new Country;
+    Country *tailCountry = new Country;
+    Country *previousTail = new Country;
     tailCountry = head;
-    previousHead = NULL;
     previousTail = NULL;
-    for (int j = 0; j < i; j++) {
-      previousHead = headCountry;
-      headCountry = headCountry->next;
+    int count = 0;
+    while (0 < 1) {
+      count++;
+      if (tailCountry->next == NULL) {
+        break;
+      }
+      else {
+        previousTail = tailCountry;
+        tailCountry = tailCountry->next;
+      }
     }
-    for (int j = i; j < count-1; j++) {
-      previousTail = tailCountry;
-      tailCountry = tailCountry->next;
-    }
-    if (previousHead == NULL) {
-      tailCountry->next = headCountry->next;
-      head = tailCountry;
-      previousTail->next = headCountry;
-      headCountry->next = NULL;
-    }
-    else if (headCountry->next == tailCountry) {
-      previousHead->next = tailCountry;
-      headCountry->next = tailCountry->next;
-      tailCountry->next = headCountry;
-    }
-    else {
-      Country *temp = new Country;
-      temp = tailCountry->next;
-      previousHead->next = tailCountry;
-      tailCountry->next = headCountry->next;
-      previousTail->next = headCountry;
-      headCountry->next = temp;
+    headCountry = head;
+    for (int i = 0; i < count/2; i++) {
+      headCountry = head;
+      tailCountry = head;
+      previousHead = NULL;
+      previousTail = NULL;
+      for (int j = 0; j < i; j++) {
+        previousHead = headCountry;
+        headCountry = headCountry->next;
+      }
+      for (int j = i; j < count-1; j++) {
+        previousTail = tailCountry;
+        tailCountry = tailCountry->next;
+      }
+      if (previousHead == NULL) {
+        tailCountry->next = headCountry->next;
+        head = tailCountry;
+        previousTail->next = headCountry;
+        headCountry->next = NULL;
+      }
+      else if (headCountry->next == tailCountry) {
+        previousHead->next = tailCountry;
+        headCountry->next = tailCountry->next;
+        tailCountry->next = headCountry;
+      }
+      else {
+        Country *temp = new Country;
+        temp = tailCountry->next;
+        previousHead->next = tailCountry;
+        tailCountry->next = headCountry->next;
+        previousTail->next = headCountry;
+        headCountry->next = temp;
+      }
     }
   }
 }
