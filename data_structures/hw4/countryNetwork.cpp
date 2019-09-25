@@ -55,7 +55,7 @@ bool CountryNetwork::isEmpty() {
      }
      // If list is not empty
      else {
-       previous->next = newCountry;
+       newCountry->next = head;
        head = newCountry;
      }
    }

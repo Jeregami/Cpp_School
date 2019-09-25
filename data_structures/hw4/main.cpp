@@ -85,6 +85,8 @@ int main() {
           cout << "Network before deletion" << endl;
           network.printPath();
           network.deleteEntireNetwork();
+          cout << "Network after deletion" << endl;
+          network.printPath();
           break;
         case 8:
           cout << "Quitting... cleaning up path: " << endl;
