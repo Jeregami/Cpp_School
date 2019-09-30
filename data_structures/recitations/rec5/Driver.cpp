@@ -23,7 +23,6 @@ bool isValid(string input)
         switch (input[i])
         {
         case ')':
-
             // TODO first peek and then pop from stack
             // if the popped character is the matching starting bracket then fine else parenthesis are not balanced
 
