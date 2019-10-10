@@ -73,4 +73,47 @@ void LinkedList::printList(){
     cout<<temp->key<<" -> NULL"<<endl;
 }
 
-
+///////////////////////////////////////////////////////////////
+// TODO : Complete the following function
+void LinkedList::removeNthFromEnd(int n) {
+  // If list is empty
+  if (head == NULL) {
+    return;
+  }
+  int count = 1;
+  Node* temp = head;
+  // Finding number of nodes in list
+  while (true) {
+    if (temp->next != NULL) {
+      temp = temp->next;
+      count++;
+    }
+    else {
+      break;
+    }
+  }
+  // If n is greater than number of nodes in list, it will not work
+  if (n > count) {
+    return;
+  }
+  delete temp;
+  Node* current = head;
+  Node* prev = NULL;
+  // current node will be node to be deleted
+  for (int i = 0; i < count-n; i++) {
+    prev = current;
+    current = current->next;
+  }
+  cout << current->key << endl;
+  // deleting head
+  if (current == head) {
+    head = current->next;
+  }
+  // deleting tail
+  else if (current->next == NULL) {
+    prev->next = NULL;
+  }
+  else {
+    prev->next = current->next;
+  }
+}
