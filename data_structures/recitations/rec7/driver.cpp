@@ -1,11 +1,10 @@
 #include <iostream>
-#include "tree.hpp"
+#include "tree.cpp"
 using namespace std;
 #define COUNT 10
 
 
-int main()
-{
+int main() {
   Tree t;
   t.createTree();
   //cout<<t.root->data<<endl;

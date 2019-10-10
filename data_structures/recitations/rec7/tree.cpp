@@ -63,14 +63,14 @@ void Tree::preOrderTraverse(Node *node)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ***************************************************************************
 */
-void Tree::deleteTree(Node *node)
-{
-    if (node == NULL) return;
-
-    /*TODO first delete both subtrees */
-
-    /* TODO then delete the node */
-    cout<<"\n Deleting node:"<< node->data;
+void Tree::deleteTree(Node *node) {
+  if (node == NULL) return;
+  else {
+    node->left = NULL;
+    node->right = NULL;
+    node->data = 0;
+  }
+  cout<<"\n Deleting node:"<< node->data;
 }
 
 /*
@@ -81,13 +81,18 @@ void Tree::deleteTree(Node *node)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ***************************************************************************
 */
-int Tree::sumNodes(Node *node)
-{
-//TODO Base case
-
-//TODO Implement Sum of all nodes
-
-  return 0;
+int Tree::sumNodes(Node *node) {
+  if (node == NULL) {
+    return 0;
+  }
+  int count = node->data;
+  if (node->left != NULL) {
+    count += sumNodes(node->left);
+  }
+  if (node->right != NULL) {
+    count += sumNodes(node->right);
+  }
+  return count;
 }
 
 /*
