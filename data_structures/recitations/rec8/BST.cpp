@@ -227,6 +227,8 @@ Node* BST::deleteNode(Node *currNode, int value)
     // Case: Both left and right child
     else
     {
+      getMinValueNode(currNode->right)->left = currNode->left;
+      getMinValueNode(currNode->right)->right = currNode->right;
       currNode = getMinValueNode(currNode->right);
     }
   }
