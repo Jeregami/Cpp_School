@@ -1,7 +1,7 @@
 #include "MovieTree.cpp"
 #include <iostream>
 #include <string>
-#include<fstream>
+#include <fstream>
 #include <sstream>
 #include <stack>
 
