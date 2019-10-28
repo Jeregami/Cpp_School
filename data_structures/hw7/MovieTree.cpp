@@ -31,79 +31,129 @@ void MovieTree::printMovieInventory() {
   printMovieInventoryHelper(root);
 }
 
-TreeNode* addMovieHelper(TreeNode* root, LLMovieNode* movie) {
-  TreeNode *temp = new TreeNode;
-  char titleChar = movie->title.at(0);
-  temp->titleChar = titleChar;
-  temp->head = movie;
-  if (root == NULL) {
-    root = temp;
-    return root;
+TreeNode* createMovieGroup(TreeNode* parent, int ranking, string title, int year, float rating) {
+  TreeNode *newMovieGroup = new TreeNode;
+  LLMovieNode *newMovie = new LLMovieNode;
+  newMovieGroup->head = newMovie;
+  delete newMovie;
+  newMovieGroup->head->ranking = ranking;
+  newMovieGroup->head->title = title;
+  newMovieGroup->head->year = year;
+  newMovieGroup->head->rating = rating;
+  newMovieGroup->titleChar = title.at(0);
+  newMovieGroup->parent = parent;
+  cout << newMovieGroup->head->title << endl;
+  return newMovieGroup;
+}
+
+TreeNode* addtoMovieGroup(TreeNode* movieGroup, int ranking, string title, int year, float rating) {
+
+}
+
+TreeNode* addMovieHelper(TreeNode* movieGroup, TreeNode* parent, int ranking, string title, int year, float rating) {
+  if (parent != NULL) {
+    cout << "Parent: " << parent->head->title << endl;
+  }
+  char titleChar = title.at(0);
+  if (movieGroup == NULL) {
+    cout << "=" << endl;
+    return createMovieGroup(parent, ranking, title, year, rating);
   }
   // Current movie's titles are higher up in the alphabet
-  if (root->titleChar > titleChar) {
-    if (root->leftChild == NULL) {
-      root->leftChild = temp;
-      return root;
+  else if (movieGroup->titleChar > titleChar) {
+    cout << ">" << endl;
+    if (movieGroup->leftChild != NULL) {
+      cout << movieGroup->leftChild->head->title << endl;
     }
-    else{
-      root->leftChild = addMovieHelper(root->leftChild, movie);
-    }
+    movieGroup->leftChild = addMovieHelper(movieGroup->leftChild, movieGroup, ranking, title, year, rating);
   }
   // Current movie's title are lower in the alphabet
-  else if (root->titleChar < titleChar) {
-    if (root->rightChild == NULL) {
-      root->rightChild = temp;
-      return root;
+  else if (movieGroup->titleChar < titleChar) {
+    cout << "<" << endl;
+    if (movieGroup->rightChild != NULL) {
+      cout << movieGroup->rightChild->head->title << endl;
     }
-    else {
-        root->rightChild = addMovieHelper(root->rightChild, movie);
-    }
+    movieGroup->rightChild = addMovieHelper(movieGroup->rightChild, movieGroup, ranking, title, year, rating);
   }
   // Movie title belongs in the current group of movies
   else {
-    LLMovieNode *currentMovie = root->head;
-    LLMovieNode *previousMovie = NULL;
-    // Now traversing linked list to sort movie
-    while (currentMovie != NULL) {
-      // Current movie is higher up in the alphabet
-      if (currentMovie->title.compare(movie->title) > 0) {
-        // Current movie is the head
-        if (previousMovie == NULL) {
-          movie->next = currentMovie;
-          root->head = movie;
-        }
-        else {
-          previousMovie->next = movie;
-          movie->next = currentMovie;
-        }
-        break;
-      }
-      // Current movie is lower in the alphabet
-      else if (currentMovie->title.compare(movie->title) < 0) {
-        // Current movie is the tail
-        if (currentMovie->next == NULL) {
-          currentMovie->next = movie;
-          break;
-        }
-        else {
-          previousMovie = currentMovie;
-          currentMovie = currentMovie->next;
-        }
-      }
-      else {
-        break;
-      }
-    }
-    return root;
+
   }
+  return movieGroup;
 }
 
+// TreeNode* addMovieHelper(TreeNode* root, LLMovieNode* movie) {
+//   TreeNode *temp = new TreeNode;
+//   char titleChar = movie->title.at(0);
+//   temp->titleChar = titleChar;
+//   temp->head = movie;
+//   if (root == NULL) {
+//     root = temp;
+//     return root;
+//   }
+//   // Current movie's titles are higher up in the alphabet
+//   if (root->titleChar > titleChar) {
+//     if (root->leftChild == NULL) {
+//       root->leftChild = temp;
+//       return root;
+//     }
+//     else{
+//       root->leftChild = addMovieHelper(root->leftChild, movie);
+//     }
+//   }
+//   // Current movie's title are lower in the alphabet
+//   else if (root->titleChar < titleChar) {
+//     if (root->rightChild == NULL) {
+//       root->rightChild = temp;
+//       return root;
+//     }
+//     else {
+//         root->rightChild = addMovieHelper(root->rightChild, movie);
+//     }
+//   }
+//   // Movie title belongs in the current group of movies
+//   else {
+//     LLMovieNode *currentMovie = root->head;
+//     LLMovieNode *previousMovie = NULL;
+//     // Now traversing linked list to sort movie
+//     while (currentMovie != NULL) {
+//       // Current movie is higher up in the alphabet
+//       if (currentMovie->title.compare(movie->title) > 0) {
+//         // Current movie is the head
+//         if (previousMovie == NULL) {
+//           movie->next = currentMovie;
+//           root->head = movie;
+//         }
+//         else {
+//           previousMovie->next = movie;
+//           movie->next = currentMovie;
+//         }
+//         break;
+//       }
+//       // Current movie is lower in the alphabet
+//       else if (currentMovie->title.compare(movie->title) < 0) {
+//         // Current movie is the tail
+//         if (currentMovie->next == NULL) {
+//           currentMovie->next = movie;
+//           break;
+//         }
+//         else {
+//           previousMovie = currentMovie;
+//           currentMovie = currentMovie->next;
+//         }
+//       }
+//       else {
+//         break;
+//       }
+//     }
+//     return root;
+//   }
+// }
+
 void MovieTree::addMovie(int ranking, string title, int year, float rating) {
-  LLMovieNode *movie = new LLMovieNode(ranking, title, year, rating);
-  movie->next = NULL;
-  root = addMovieHelper(root, movie);
-  delete movie;
+  // LLMovieNode *movie = new LLMovieNode(ranking, title, year, rating);
+  // movie->next = NULL;
+  root = addMovieHelper(root, NULL, ranking, title, year, rating);
 }
 
 
