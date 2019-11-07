@@ -48,7 +48,6 @@ node* HashTable::searchItem(int key) {
 bool HashTable::insertItem(int key) {
     if(!searchItem(key)) {
         int index = hashFunction(key);
-        cout << key << " " << index << " " << endl;
         node *newNode = createNode(key, NULL);
         newNode->key = key;
         newNode->next = NULL;
