@@ -5,12 +5,24 @@
 
 using namespace std;
 
+
 HashTable::HashTable() {
-  table = new node*[tableSize];
-  altTable = new node*[tableSize];
+  tableSize = 10009;
+  table1 = new node*[tableSize];
+  table2 = new node*[tableSize];
   for (int i = 0; i < tableSize; i++) {
-    table[i] = nullptr;
-    altTable[i] = nullptr;
+    table1[i] = nullptr;
+    table2[i] = nullptr;
+  }
+}
+
+HashTable::HashTable(int newTableSize) {
+  tableSize = newTableSize;
+  table1 = new node*[tableSize];
+  table2 = new node*[tableSize];
+  for (int i = 0; i < tableSize; i++) {
+    table1[i] = nullptr;
+    table2[i] = nullptr;
   }
 }
 
@@ -23,17 +35,17 @@ node* HashTable::createNode(int key, node* next) {
   return newNode;
 }
 
-int HashTable::hashFunction(int key) {
+int HashTable::hashFunction1(int key) {
   return (key % tableSize);
 }
 
-int HashTable::cuckooHashFunction(int key) {
+int HashTable::hashFunction2(int key) {
   return floor(key / tableSize);
 }
 
 void HashTable::printLLChainTable() {
   for (int i = 0; i < tableSize; i++) {
-    node *currentNode = table[i];
+    node *currentNode = table1[i];
     if (currentNode != NULL) {
       cout << i << "|| ";
       while (currentNode != NULL) {
@@ -58,9 +70,9 @@ void printTree(node *currentNode) {
 
 void HashTable::printBSTChainTable() {
   for (int i = 0; i < tableSize; i++) {
-    node *currentNode = table[i];
+    node *currentNode = table1[i];
     if (currentNode != NULL) {
-      node *BSTNode = table[i];
+      node *BSTNode = table1[i];
       cout << i << "|| ";
       printTree(BSTNode);
       cout << endl;
@@ -70,7 +82,7 @@ void HashTable::printBSTChainTable() {
 
 void HashTable::printLinearTable() {
   for (int i = 0; i < tableSize; i++) {
-    node *currentNode = table[i];
+    node *currentNode = table1[i];
     if (currentNode != NULL && currentNode->key != -1) {
       cout << i << "|| " << currentNode->key << endl;
     }
@@ -78,15 +90,18 @@ void HashTable::printLinearTable() {
 }
 
 void HashTable::printCuckooTable() {
+  cout << "Table 1:" << endl;
   for (int i = 0; i < tableSize; i++) {
-    node *currentNode1 = table[i];
-    node *currentNode2 = altTable[i];
-    if (currentNode1 != NULL) {
-      cout << i << "|| " << currentNode1->key;
-      if (currentNode2 != NULL) {
-        cout << " " << currentNode2->key;
-      }
-      cout << endl;
+    node *currentNode = table1[i];
+    if (currentNode != NULL && currentNode->key != -1) {
+      cout << i << "|| " << currentNode->key << endl;
+    }
+  }
+  cout << "Table 2:" << endl;
+  for (int i = 0; i < tableSize; i++) {
+    node *currentNode = table2[i];
+    if (currentNode != NULL && currentNode->key != -1) {
+      cout << i << "|| " << currentNode->key << endl;
     }
   }
 }
@@ -96,8 +111,17 @@ void HashTable::printCuckooTable() {
 // Chaining with a Linked List
 
 
-node* HashTable::linkedListChainSearch(int key) {
-  int index = hashFunction(key);
+node* HashTable::linkedListChainSearch(int key, int whichTable) {
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node* searchNode = table[index];
   while (searchNode != NULL) {
     if (searchNode->key == key) {
@@ -109,11 +133,20 @@ node* HashTable::linkedListChainSearch(int key) {
 }
 
 
-bool HashTable::linkedListChainInsert(int key) {
-  if (linkedListChainSearch(key) != NULL) {
+bool HashTable::linkedListChainInsert(int key, int whichTable) {
+  if (linkedListChainSearch(key, whichTable) != NULL) {
     return false;
   }
-  int index = hashFunction(key);
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   if (table[index] == NULL) {
       table[index] = createNode(key, NULL);
       return true;
@@ -143,11 +176,20 @@ bool HashTable::linkedListChainInsert(int key) {
 }
 
 
-bool HashTable::linkedListChainDelete(int key) {
-  if (linkedListChainSearch(key) == NULL) {
+bool HashTable::linkedListChainDelete(int key, int whichTable) {
+  if (linkedListChainSearch(key, whichTable) == NULL) {
     return false;
   }
-  int index = hashFunction(key);
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node *currentNode = table[index];
   node *previousNode = NULL;
   while (currentNode != NULL) {
@@ -172,8 +214,17 @@ bool HashTable::linkedListChainDelete(int key) {
 // Chaining with a Balanced BST
 
 
-node* HashTable::balancedBSTChainSearch(int key) {
-  int index = hashFunction(key);
+node* HashTable::BSTChainSearch(int key, int whichTable) {
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node* searchNode = table[index];
   while (searchNode != NULL) {
     if (searchNode->key == key) {
@@ -190,11 +241,20 @@ node* HashTable::balancedBSTChainSearch(int key) {
 }
 
 
-bool HashTable::balancedBSTChainInsert(int key) {
-  if (balancedBSTChainSearch(key) != NULL) {
+bool HashTable::BSTChainInsert(int key, int whichTable) {
+  if (BSTChainSearch(key, whichTable) != NULL) {
     return false;
   }
-  int index = hashFunction(key);
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   if (table[index] == NULL) {
     table[index] = createNode(key, NULL);
     return true;
@@ -221,11 +281,20 @@ bool HashTable::balancedBSTChainInsert(int key) {
 }
 
 
-bool HashTable::balancedBSTChainDelete(int key) {
-  if (balancedBSTChainSearch(key) == NULL) {
+bool HashTable::BSTChainDelete(int key, int whichTable) {
+  if (BSTChainSearch(key, whichTable) == NULL) {
     return false;
   }
-  int index = hashFunction(key);
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node* currentNode = table[index];
   node* previousNode = NULL;
   while (currentNode != NULL) {
@@ -335,8 +404,17 @@ bool HashTable::balancedBSTChainDelete(int key) {
 // Linear Probing
 
 
-node* HashTable::linearProbeSearch(int key) {
-  int index = hashFunction(key);
+node* HashTable::linearProbeSearch(int key, int whichTable) {
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node *searchNode = table[index];
   int count = index;
   while (searchNode != NULL && searchNode->key != -1) {
@@ -361,11 +439,20 @@ node* HashTable::linearProbeSearch(int key) {
 }
 
 
-bool HashTable::linearProbeInsert(int key) {
-  if (linearProbeSearch(key) != NULL) {
+bool HashTable::linearProbeInsert(int key, int whichTable) {
+  if (linearProbeSearch(key, whichTable) != NULL) {
     return false;
   }
-  int index = hashFunction(key);
+  node* *table;
+  int index;
+  if (whichTable == 1) {
+    table = table1;
+    index = hashFunction1(key);
+  }
+  else {
+    table = table2;
+    index = hashFunction2(key);
+  }
   node *currentNode = table[index];
   int count = index;
   while (currentNode != NULL && currentNode->key != -1) {
@@ -386,28 +473,13 @@ bool HashTable::linearProbeInsert(int key) {
 }
 
 
-bool HashTable::linearProbeDelete(int key) {
-  if (linearProbeSearch(key) == NULL) {
+bool HashTable::linearProbeDelete(int key, int whichTable) {
+  if (linearProbeSearch(key, whichTable) == NULL) {
     return false;
   }
-  int index = hashFunction(key);
-  int count = index;
-  node *currentNode = table[count];
-  while (currentNode != NULL && currentNode->key != -1) {
-    currentNode = table[count];
-    // Instead of deleting node entirely, node's value is set to -1. Otherwise, the search function might not always work
-    if (currentNode->key == key) {
-      currentNode->key = -1;
-      return true;
-    }
-    count++;
-    if (count == 1019) {
-      count = 0;
-    }
-    if (count == index) {
-      return false;
-    }
-  }
+  node *currentNode = linearProbeSearch(key, whichTable);
+  currentNode->key = -1;
+  return true;
 }
 
 
@@ -415,15 +487,15 @@ bool HashTable::linearProbeDelete(int key) {
 
 
 node* HashTable::cuckooHashSearch(int key) {
-  int index = hashFunction(key);
-  node *searchNode = table[index];
+  int index = hashFunction1(key);
+  node *searchNode = table1[index];
   if (searchNode != NULL) {
     if (searchNode->key == key) {
       return searchNode;
     }
     else {
-      index = cuckooHashFunction(key);
-      searchNode = altTable[index];
+      index = hashFunction2(key);
+      searchNode = table2[index];
       if (searchNode != NULL) {
         if (searchNode->key == key) {
           return searchNode;
@@ -435,152 +507,48 @@ node* HashTable::cuckooHashSearch(int key) {
 }
 
 
-// bool HashTable::cuckooHashInsert(int key) {
-//   if (cuckooHashSearch(key) != NULL) {
-//     return false;
-//   }
-//   int index1 = hashFunction(key);
-//   int index2 = cuckooHashFunction(key);
-//   node *currentNode1 = table[index1];
-//   node *currentNode2 = altTable[index2];
-//   node *tempNode = NULL;
-//   while (currentNode1 != NULL) {
-//     if (currentNode2 == NULL) {
-//       altTable[index2] = createNode(key, NULL);
-//       if (tempNode != NULL) {
-//         return true;
-//       }
-//     }
-//     else {
-//       if (tempNode == NULL) {
-//         table[index1] = createNode(key, NULL);
-//       }
-//       else {
-//         table[index1] = tempNode;
-//       }
-//     }
-//     tempNode = currentNode1;
-//     index1 = hashFunction(currentNode1->key);
-//     index2 = cuckooHashFunction(currentNode2->key);
-//     currentNode1 = table[index1];
-//     currentNode2 = altTable[index2];
-//   }
-//   table[index1] = currentNode1;
-//   return true;
-// }
-
-
-// bool HashTable::cuckooHashInsert(int key) {
-//   if (cuckooHashSearch(key) != NULL) {
-//     return false;
-//   }
-//   int index1 = hashFunction(key);
-//   int index2 = cuckooHashFunction(key);
-//   node *currentNode = table[index1];
-//   node *previousNode = createNode(key, NULL);
-//   stack <node*> tableValues;
-//   stack <node*> altTableValues;
-//   tableValues.push(currentNode);
-//   while (true) {
-//     if (!tableValues.empty()) {
-//       currentNode = tableValues.top();
-//       table[index1] = previousNode;
-//     }
-//     else if (!altTableValues.empty()) {
-//       currentNode = altTableValues.top();
-//       altTable[index2] = previousNode;
-//     }
-//     if (currentNode == NULL) {
-//       return true;
-//     }
-//     // Already visited this node, meaning we've created a loop
-//     else if (currentNode->visited == true) {
-//       return false;
-//     }
-//     currentNode->visited = true;
-//     previousNode = currentNode;
-//     index1 = hashFunction(currentNode->key);
-//     index2 = cuckooHashFunction(currentNode->key);
-//     if (!tableValues.empty()) {
-//       tableValues.pop();
-//       altTableValues.push(currentNode);
-//     }
-//     else if (!altTableValues.empty()) {
-//       altTableValues.pop();
-//       tableValues.push(currentNode);
-//     }
-//   }
-// }
-
-// bool HashTable::cuckooHashInsert(int key) {
-//   if (cuckooHashSearch(key) != NULL) {
-//     return false;
-//   }
-//   int index1 = hashFunction(key);
-//   int index2 = cuckooHashFunction(key);
-//   node *currentNode = table[index1];
-//   node *tempNode = createNode(key, NULL);
-//   table[index1] = tempNode;
-//   while (true) {
-//     if (currentNode == NULL) {
-//       return true;
-//     }
-//     tempNode = currentNode;
-//     index1 = hashFunction(currentNode->key);
-//     index2 = cuckooHashFunction(currentNode->key);
-//
-//   }
-// }
-
-
 // Uses recursion to go through each table for a place to put the new node
-bool HashTable::cuckooHashInsert(int key, int currentTable, int count, int cycle) {
+int HashTable::cuckooHashInsert(int key, int currentTable, int count, int cycle) {
   // Counts the number of times it has cycled through already, if the cycle number is reached, it will assume that there is a cycle and stop
   if (count == cycle) {
-    return false;
+    return -1;
   }
   if (cuckooHashSearch(key) != NULL) {
-    return false;
+    return 0;
   }
-  int index1 = hashFunction(key);
-  int index2 = cuckooHashFunction(key);
+  int index1 = hashFunction1(key);
+  int index2 = hashFunction2(key);
   node *currentNode;
   // regular table
   if (currentTable == 0) {
-    currentNode = table[index1];
-    if (currentNode != NULL) {
-      // Special case when on the first cycle
-      if (count == 0) {
-        table[index1] = createNode(key, NULL);
-      }
-      else {
-        table[index1] = cuckooHashSearch(key);
-      }
+    currentNode = table1[index1];
+    if (count == 0) {
+      table1[index1] = createNode(key, NULL);
+    }
+    if (currentNode != NULL && currentNode->key != -1) {
+      table1[index1] = cuckooHashSearch(key);
       cuckooHashInsert(currentNode->key, ((currentTable+1)%2), count++, cycle);
     }
   }
   // alt table
   else if (currentTable == 1) {
-    if (currentNode != NULL) {
-      currentNode = altTable[index2];
-      altTable[index2] = cuckooHashSearch(key);
+    currentNode = table2[index2];
+    if (count == 0) {
+      table2[index2] = createNode(key, NULL);
+    }
+    if (currentNode != NULL && currentNode->key != -1) {
+      table2[index2] = cuckooHashSearch(key);
       cuckooHashInsert(currentNode->key, ((currentTable+1)%2), count++, cycle);
     }
   }
-  return true;
+  return 1;
 }
 
 bool HashTable::cuckooHashDelete(int key) {
-
-}
-
-
-int main() {
-  HashTable table;
-  table.cuckooHashInsert(797, 0, 0, 100);
-  table.cuckooHashInsert(7930, 0, 0, 100);
-  table.cuckooHashInsert(1403, 0, 0, 100);
-  table.printCuckooTable();
-  table.cuckooHashDelete(797);
-  table.printCuckooTable();
+  if (cuckooHashSearch(key) == NULL) {
+    return false;
+  }
+  node *currentNode = cuckooHashSearch(key);
+  currentNode->key = -1;
+  return true;
 }

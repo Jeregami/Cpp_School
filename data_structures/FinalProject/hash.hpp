@@ -10,14 +10,15 @@ struct node {
 };
 
 class HashTable {
-    int tableSize = 1019;
-    node* *table;
-    node* *altTable;
+    int tableSize;
+    node* *table1;
+    node* *table2;
     node* createNode(int key, node* next);
 public:
     HashTable();
-    int hashFunction(int key);
-    int cuckooHashFunction(int key);
+    HashTable(int newTableSize);
+    int hashFunction1(int key);
+    int hashFunction2(int key);
     void printLLChainTable();
     void printBSTChainTable();
     void printLinearTable();
@@ -25,22 +26,22 @@ public:
     // Collision Resolution Mechanisms
 
     // Chaining with a Linked List
-    node* linkedListChainSearch(int key);
-    bool linkedListChainInsert(int key);
-    bool linkedListChainDelete(int key);
+    node* linkedListChainSearch(int key, int whichTable);
+    bool linkedListChainInsert(int key, int whichTable);
+    bool linkedListChainDelete(int key, int whichTable);
 
     // Chaining with a Balanced BST
-    node* balancedBSTChainSearch(int key);
-    bool balancedBSTChainInsert(int key);
-    bool balancedBSTChainDelete(int key);
+    node* BSTChainSearch(int key, int whichTable);
+    bool BSTChainInsert(int key, int whichTable);
+    bool BSTChainDelete(int key, int whichTable);
 
     // Linear Probing
-    node* linearProbeSearch(int key);
-    bool linearProbeInsert(int key);
-    bool linearProbeDelete(int key);
+    node* linearProbeSearch(int key, int whichTable);
+    bool linearProbeInsert(int key, int whichTable);
+    bool linearProbeDelete(int key, int whichTable);
 
     // Cuckoo Hashing
     node* cuckooHashSearch(int key);
-    bool cuckooHashInsert(int key, int currentTable, int count, int cycle);
+    int cuckooHashInsert(int key, int currentTable, int count, int cycle);
     bool cuckooHashDelete(int key);
 };
