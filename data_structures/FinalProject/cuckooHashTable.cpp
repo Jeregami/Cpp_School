@@ -64,7 +64,7 @@ cuckooNode* CuckooHashTable::cuckooHashSearch(int key) {
 
 
 // Uses recursion to go through each table for a place to put the new node
-int CuckooHashTable::cuckooHashInsert(int key, int currentTable, int count, int cycle) {
+int CuckooHashTable::cuckooHashInsert(int key, int count, int cycle) {
   // Counts the number of times it has cycled through already, if the cycle number is reached, it will assume that there is a cycle and stop
   if (count == cycle) {
     return -1;
@@ -72,29 +72,24 @@ int CuckooHashTable::cuckooHashInsert(int key, int currentTable, int count, int 
   if (cuckooHashSearch(key) != NULL) {
     return 0;
   }
+  int currentTable = count % 2;
   int index1 = hashFunction1(key);
   int index2 = hashFunction2(key);
   cuckooNode *currentNode;
   // regular table
   if (currentTable == 0) {
     currentNode = table1[index1];
-    if (count == 0) {
-      table1[index1] = createNode(key);
-    }
+    table1[index1] = createNode(key);
     if (currentNode != NULL && currentNode->key != -1) {
-      table1[index1] = cuckooHashSearch(key);
-      cuckooHashInsert(currentNode->key, ((currentTable+1)%2), count++, cycle);
+      cuckooHashInsert(currentNode->key, count+1, cycle);
     }
   }
   // alt table
   else if (currentTable == 1) {
     currentNode = table2[index2];
-    if (count == 0) {
-      table2[index2] = createNode(key);
-    }
+    table2[index2] = createNode(key);
     if (currentNode != NULL && currentNode->key != -1) {
-      table2[index2] = cuckooHashSearch(key);
-      cuckooHashInsert(currentNode->key, ((currentTable+1)%2), count++, cycle);
+      cuckooHashInsert(currentNode->key, count+1, cycle);
     }
   }
   return 1;
@@ -115,7 +110,7 @@ int CuckooHashTable::fillTable(vector <int> v, double loadFactor) {
   int numDuplicates = 0;
   int cycleTracker;
   while ((numInserted / tableSize) < loadFactor) {
-    cycleTracker = cuckooHashInsert(v[numInserted], 0, 0, 5000);
+    cycleTracker = cuckooHashInsert(v[numInserted+numDuplicates], 0, 500);
     if (cycleTracker == 0) {
       numDuplicates++;
     }

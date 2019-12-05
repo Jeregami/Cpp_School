@@ -86,7 +86,7 @@ bool LinkedListChainTable::linkedListChainDelete(int key) {
       else {
         previousNode->next = currentNode->next;
       }
-      delete currentNode;
+      currentNode = NULL;
       return true;
     }
     else {

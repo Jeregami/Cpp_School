@@ -18,7 +18,7 @@ public:
   int hashFunction1(int key);
   int hashFunction2(int key);
   cuckooNode* cuckooHashSearch(int key);
-  int cuckooHashInsert(int key, int currentTable, int count, int cycle);
+  int cuckooHashInsert(int key, int count, int cycle);
   bool cuckooHashDelete(int key);
   int fillTable(vector <int> v, double loadFactor);
 };

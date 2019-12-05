@@ -125,13 +125,12 @@ bool BSTChainTable::BSTChainDelete(int key) {
           }
         }
         table[index] = searchNode;
-        delete currentNode;
         return true;
       }
       // Node cannot be the root
       // Node being deleted has no children
       if (currentNode->left == NULL && currentNode->right == NULL) {
-        delete currentNode;
+        currentNode = NULL;
       }
       // Node being deleted has only right child
       else if (currentNode->left == NULL) {
@@ -154,7 +153,7 @@ bool BSTChainTable::BSTChainDelete(int key) {
       // Node being deleted has both left and right child
       else {
         BSTNode *searchNode = currentNode->left;
-        BSTNode *searchNodePrev = NULL;
+        BSTNode *searchNodePrev = currentNode;
         while (searchNode->left != NULL) {
           searchNodePrev = searchNode;
           searchNode = searchNode->left;
@@ -178,7 +177,7 @@ bool BSTChainTable::BSTChainDelete(int key) {
         else {
           searchNode->right = currentNode->right;
         }
-        delete currentNode;
+        currentNode = NULL;
       }
       return true;
     }

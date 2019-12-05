@@ -30,18 +30,18 @@ linearNode* LinearProbeTable::linearProbeSearch(int key) {
     if (searchNode->key == -1) {
       break;
     }
-    if (searchNode->key == key) {
+    else if (searchNode->key == key) {
       return searchNode;
     }
     else {
       count++;
-      searchNode = table[count];
       if (count == tableSize) {
         count = 0;
       }
-      if (count == index) {
+      else if (count == index) {
         return NULL;
       }
+      searchNode = table[count];
     }
   }
   return NULL;

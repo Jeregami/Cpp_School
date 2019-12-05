@@ -93,8 +93,11 @@ vector <double> linkedListAction(LinkedListChainTable table1, LinkedListChainTab
         // Random values used for testing
         // num1 = rand() % 200180;
         // num2 = rand() % 200180;
-        num1 = v1[numInserted+i];
-        num2 = v2[numInserted+i];
+        // Alternate way of testing inserts, but not used due to less consistent data
+        // num1 = v1[(rand() % v1.size())+numInserted];
+        // num2 = v2[(rand() % v1.size())+numInserted];
+        num1 = v1[rand() % numInserted];
+        num2 = v2[rand() % numInserted];
         start = clock();
         inserted1 = table1.linkedListChainInsert(num1);
         inserted2 = table2.linkedListChainInsert(num2);
@@ -160,8 +163,11 @@ vector <double> BSTAction(BSTChainTable table1, BSTChainTable table2, vector <in
           // Random values used for testing
           // num1 = rand() % 200180;
           // num2 = rand() % 200180;
-          num1 = v1[numInserted+i];
-          num2 = v2[numInserted+i];
+          // Alternate way of testing inserts, but not used due to less consistent data
+          // num1 = v1[(rand() % v1.size())+numInserted];
+          // num2 = v2[(rand() % v1.size())+numInserted];
+          num1 = v1[rand() % numInserted];
+          num2 = v2[rand() % numInserted];
           start = clock();
           inserted1 = table1.BSTChainInsert(num1);
           inserted2 = table2.BSTChainInsert(num2);
@@ -229,8 +235,11 @@ vector <double> linearAction(LinearProbeTable table1, LinearProbeTable table2, v
           // Random values used for testing
           // num1 = rand() % 200180;
           // num2 = rand() % 200180;
-          num1 = v1[numInserted+i];
-          num2 = v2[numInserted+i];
+          // Alternate way of testing inserts, but not used due to less consistent data
+          // num1 = v1[(rand() % v1.size())+numInserted];
+          // num2 = v2[(rand() % v1.size())+numInserted];
+          num1 = v1[rand() % numInserted];
+          num2 = v2[rand() % numInserted];
           start = clock();
           inserted1 = table1.linearProbeInsert(num1);
           inserted2 = table2.linearProbeInsert(num2);
@@ -292,7 +301,7 @@ int findNextPrimeNum(int num) {
 CuckooHashTable rebuildCuckooHashTable(CuckooHashTable table, vector <int> v, int numInserted, int tableSize) {
   CuckooHashTable newTable(findNextPrimeNum(tableSize));
   for (int i = 0; i < numInserted; i++) {
-    newTable.cuckooHashInsert(v[i], 0, 0, 10000);
+    newTable.cuckooHashInsert(v[i], 0, 10000);
   }
   return newTable;
 }
@@ -323,9 +332,11 @@ vector <double> cuckooAction(CuckooHashTable table, vector <int> v, int function
       for (int i = 0; i < 100; i++) {
         // Random values used for testing
         // num = v[rand() % 200180];
-        num = v[numInserted+i];
+        // Alternate way of testing inserts, but not used due to more inconsistent data
+        // num = v[(rand() % v.size())+numInserted];
+        num = v[rand() % numInserted];
         start = clock();
-        inserted = table.cuckooHashInsert(num, 0, 0, 10000);
+        inserted = table.cuckooHashInsert(num, 0, 10000);
         stop = clock();
         if (inserted == -1) {
           cycle = true;
@@ -356,7 +367,7 @@ vector <double> cuckooAction(CuckooHashTable table, vector <int> v, int function
         stop = clock();
         execTime = (double)(stop-start)/CLOCKS_PER_SEC;
         times.push_back(execTime);
-        table.cuckooHashInsert(num, 0, 0, 10000);
+        table.cuckooHashInsert(num, 0, 10000);
       }
       cout << "100 Deletes";
       break;
@@ -424,7 +435,6 @@ int main(int argc, char const *argv[]) {
   double avgTime;
   double stdDev;
 
-
   // Linked List Chaining
   if (tableType == 1) {
     LinkedListChainTable LLTable1;
@@ -461,6 +471,7 @@ int main(int argc, char const *argv[]) {
     int tableSize = cuckooTable.getTableSize();
     int *cycles = 0;
     double currentLoadFactor = (double)(numInserted / tableSize);
+
     // While loop created to ensure that if a cycle is found while filling the table, it will rebuild itself until there is no more cycle
     while (currentLoadFactor < loadFactor) {
       numInserted = cuckooTable.fillTable(v1, loadFactor);
