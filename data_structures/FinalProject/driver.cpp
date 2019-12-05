@@ -71,6 +71,7 @@ vector <double> linkedListAction(LinkedListChainTable table1, LinkedListChainTab
   double execTime;
   int start, stop;
   int num1, num2;
+  bool inserted1, inserted2;
   switch (function) {
     // 100 Searches
     case 1:
@@ -95,14 +96,18 @@ vector <double> linkedListAction(LinkedListChainTable table1, LinkedListChainTab
         num1 = v1[numInserted+i];
         num2 = v2[numInserted+i];
         start = clock();
-        table1.linkedListChainInsert(num1);
-        table2.linkedListChainInsert(num2);
+        inserted1 = table1.linkedListChainInsert(num1);
+        inserted2 = table2.linkedListChainInsert(num2);
         stop = clock();
         execTime = (double)(stop-start)/CLOCKS_PER_SEC;
         times.push_back(execTime);
-        // Removes integers that were just added to table to keep load factor same
-        table1.linkedListChainDelete(num1);
-        table2.linkedListChainDelete(num2);
+        // Removes integers that were just added to table to keep load factor same if the integer was successfully added
+        if (inserted1 == true) {
+          table1.linkedListChainDelete(num1);
+        }
+        if (inserted2 == true) {
+          table2.linkedListChainDelete(num2);
+        }
       }
       cout << "100 Inserts";
       break;
@@ -133,6 +138,7 @@ vector <double> BSTAction(BSTChainTable table1, BSTChainTable table2, vector <in
   double execTime;
   int start, stop;
   int num1, num2;
+  bool inserted1, inserted2;
   switch (function) {
     // 100 Searches
     case 1:
@@ -157,20 +163,26 @@ vector <double> BSTAction(BSTChainTable table1, BSTChainTable table2, vector <in
           num1 = v1[numInserted+i];
           num2 = v2[numInserted+i];
           start = clock();
-          table1.BSTChainInsert(num1);
-          table2.BSTChainInsert(num2);
+          inserted1 = table1.BSTChainInsert(num1);
+          inserted2 = table2.BSTChainInsert(num2);
           stop = clock();
           execTime = (double)(stop-start)/CLOCKS_PER_SEC;
           times.push_back(execTime);
-          // Removes integers that were just added to table to keep load factor same
-          table1.BSTChainDelete(num1);
-          table2.BSTChainDelete(num2);
+          // Removes integers that were just added to table to keep load factor same if the integer was successfully added
+          if (inserted1 == true) {
+            table1.BSTChainDelete(num1);
+          }
+          if (inserted2 == true) {
+            table2.BSTChainDelete(num2);
+          }
         }
         cout << "100 Inserts";
         break;
       // 100 Deletes
       case 3:
         for (int i = 0; i < 100; i++) {
+          // num1 = v1[rand() % numInserted];
+          // num2 = v2[rand() % numInserted];
           num1 = v1[rand() % numInserted];
           num2 = v2[rand() % numInserted];
           start = clock();
@@ -195,6 +207,7 @@ vector <double> linearAction(LinearProbeTable table1, LinearProbeTable table2, v
   double execTime;
   int start, stop;
   int num1, num2;
+  bool inserted1, inserted2;
   switch (function) {
     // 100 Searches
     case 1:
@@ -219,14 +232,18 @@ vector <double> linearAction(LinearProbeTable table1, LinearProbeTable table2, v
           num1 = v1[numInserted+i];
           num2 = v2[numInserted+i];
           start = clock();
-          table1.linearProbeInsert(num1);
-          table2.linearProbeInsert(num2);
+          inserted1 = table1.linearProbeInsert(num1);
+          inserted2 = table2.linearProbeInsert(num2);
           stop = clock();
           execTime = (double)(stop-start)/CLOCKS_PER_SEC;
           times.push_back(execTime);
-          // Removes integers that were just added to table to keep load factor same
-          table1.linearProbeDelete(num1);
-          table2.linearProbeDelete(num2);
+          // Removes integers that were just added to table to keep load factor same if the integer was successfully added
+          if (inserted1 == true) {
+            table1.linearProbeDelete(num1);
+          }
+          if (inserted2 == true) {
+            table2.linearProbeDelete(num2);
+          }
         }
         cout << "100 Inserts";
         break;
@@ -287,6 +304,7 @@ vector <double> cuckooAction(CuckooHashTable table, vector <int> v, int function
   int start, stop;
   int num;
   bool cycle = false;
+  int inserted;
   switch (function) {
     // 100 Searches
     case 1:
@@ -307,10 +325,14 @@ vector <double> cuckooAction(CuckooHashTable table, vector <int> v, int function
         // num = v[rand() % 200180];
         num = v[numInserted+i];
         start = clock();
-        if (table.cuckooHashInsert(num, 0, 0, 10000) == -1) {
+        inserted = table.cuckooHashInsert(num, 0, 0, 10000);
+        stop = clock();
+        if (inserted == -1) {
           cycle = true;
         }
-        stop = clock();
+        else if (inserted == 1) {
+          table.cuckooHashDelete(num);
+        }
         execTime = (double)(stop-start)/CLOCKS_PER_SEC;
         times.push_back(execTime);
       }

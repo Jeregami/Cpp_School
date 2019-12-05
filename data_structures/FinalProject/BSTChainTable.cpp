@@ -125,7 +125,6 @@ bool BSTChainTable::BSTChainDelete(int key) {
           }
         }
         table[index] = searchNode;
-        delete previousNode;
         delete currentNode;
         return true;
       }
