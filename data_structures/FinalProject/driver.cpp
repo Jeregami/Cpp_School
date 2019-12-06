@@ -396,6 +396,7 @@ double getStdDev(vector <double> times) {
   return sqrt(stdDev);
 }
 
+
   /* argc 1: Hash table type
    * 1. Chaining with a Linked List
    * 2. Chaining with a BST
